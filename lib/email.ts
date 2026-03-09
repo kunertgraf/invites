@@ -17,7 +17,7 @@ interface SendEmailParams {
 
 export async function sendEmail({ to, subject, html }: SendEmailParams) {
   return getResend().emails.send({
-    from: 'Birthday RSVP <onboarding@resend.dev>',
+    from: 'Birthday RSVP <rsvp@noreply.kunertgraf.com>',
     to,
     subject,
     html,
