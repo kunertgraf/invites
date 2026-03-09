@@ -2,8 +2,11 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Birthday RSVP',
-  description: 'RSVP for the birthday party',
+  title: "Rachel's Birthday RSVP",
+  description: "RSVP for Rachel's birthday party",
+  icons: {
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎉</text></svg>',
+  },
 }
 
 export default function RootLayout({
@@ -13,7 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+      </head>
+      <body className="min-h-screen bg-neutral-800" style={{ fontFamily: "'Lucida Sans Unicode', 'Lucida Grande', sans-serif" }}>
         {children}
       </body>
     </html>

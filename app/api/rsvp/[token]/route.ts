@@ -20,6 +20,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
     return NextResponse.json({
       name: rsvp.name,
+      guests: rsvp.guests,
       email: rsvp.email,
       comment: rsvp.comment,
     })
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
 export async function PUT(request: NextRequest, context: RouteContext) {
   try {
     const { token } = await context.params
-    const { name, email, comment } = await request.json()
+    const { name, guests, email, comment } = await request.json()
 
     if (!name || !email) {
       return NextResponse.json(
@@ -57,6 +58,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
 
     await updateRsvp(existingRsvp.rowIndex, {
       name,
+      guests: guests || '1',
       email,
       comment: comment || '',
       token,

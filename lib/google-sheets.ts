@@ -19,6 +19,7 @@ const RANGE = 'Sheet1'
 
 export interface RsvpRow {
   name: string
+  guests: string
   email: string
   comment: string
   token: string
@@ -33,7 +34,7 @@ export async function appendRsvp(rsvp: Omit<RsvpRow, 'rowIndex'>): Promise<void>
     range: RANGE,
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      values: [[rsvp.name, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
+      values: [[rsvp.name, rsvp.guests, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
     },
   })
 }
@@ -48,13 +49,14 @@ export async function findRsvpByToken(token: string): Promise<RsvpRow | null> {
   const rows = response.data.values || []
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]
-    if (row[3] === token) {
+    if (row[4] === token) {
       return {
         name: row[0],
-        email: row[1],
-        comment: row[2],
-        token: row[3],
-        timestamp: row[4],
+        guests: row[1] || '1',
+        email: row[2],
+        comment: row[3],
+        token: row[4],
+        timestamp: row[5],
         rowIndex: i + 1,
       }
     }
@@ -69,10 +71,10 @@ export async function updateRsvp(
   const sheets = getSheets()
   await sheets.spreadsheets.values.update({
     spreadsheetId: SHEET_ID,
-    range: `${RANGE}!A${rowIndex}:E${rowIndex}`,
+    range: `${RANGE}!A${rowIndex}:F${rowIndex}`,
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      values: [[rsvp.name, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
+      values: [[rsvp.name, rsvp.guests, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
     },
   })
 }

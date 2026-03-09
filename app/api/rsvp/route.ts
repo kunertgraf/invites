@@ -5,7 +5,7 @@ import { sendEmail, getHostNotificationEmail, getGuestConfirmationEmail } from '
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, comment } = await request.json()
+    const { name, guests, email, comment } = await request.json()
 
     if (!name || !email) {
       return NextResponse.json(
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const token = generateToken()
     const timestamp = new Date().toISOString()
 
-    await appendRsvp({ name, email, comment: comment || '', token, timestamp })
+    await appendRsvp({ name, guests: guests || '1', email, comment: comment || '', token, timestamp })
 
     const baseUrl = request.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || ''
     const editUrl = `${baseUrl}/edit/${token}`

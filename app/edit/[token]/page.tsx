@@ -17,19 +17,20 @@ export default async function EditPage({ params }: EditPageProps) {
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-neutral-900/80 border border-neutral-700 rounded-2xl shadow-2xl p-8 backdrop-blur">
           <div className="text-center mb-8">
             <div className="text-6xl mb-4">✏️</div>
-            <h1 className="text-3xl font-bold text-purple-800 mb-2">
+            <h1 className="text-3xl font-bold text-amber-400 mb-2">
               Edit Your RSVP
             </h1>
-            <p className="text-gray-600">
+            <p className="text-neutral-300">
               Update your response below
             </p>
           </div>
           <RsvpForm
             initialData={{
               name: rsvp.name,
+              guests: rsvp.guests,
               email: rsvp.email,
               comment: rsvp.comment,
             }}
