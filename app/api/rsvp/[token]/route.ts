@@ -19,6 +19,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
     }
 
     return NextResponse.json({
+      attending: rsvp.attending,
       name: rsvp.name,
       guests: rsvp.guests,
       email: rsvp.email,
@@ -36,7 +37,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
 export async function PUT(request: NextRequest, context: RouteContext) {
   try {
     const { token } = await context.params
-    const { name, guests, email, comment } = await request.json()
+    const { attending, name, guests, email, comment } = await request.json()
 
     if (!name || !email) {
       return NextResponse.json(
@@ -57,6 +58,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     const timestamp = new Date().toISOString()
 
     await updateRsvp(existingRsvp.rowIndex, {
+      attending: attending || 'yes',
       name,
       guests: guests || '1',
       email,
@@ -68,7 +70,8 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     const baseUrl = request.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || ''
     const editUrl = `${baseUrl}/edit/${token}`
 
-    const updateEmail = getGuestUpdateEmail(name, editUrl)
+    const rsvpDetails = { attending: attending || 'yes', name, guests: guests || '1', email, comment: comment || '' }
+    const updateEmail = getGuestUpdateEmail(rsvpDetails, editUrl)
     await sendEmail({
       to: email,
       subject: updateEmail.subject,

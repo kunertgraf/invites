@@ -5,7 +5,7 @@ import { sendEmail, getHostNotificationEmail, getGuestConfirmationEmail } from '
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, guests, email, comment } = await request.json()
+    const { attending, name, guests, email, comment } = await request.json()
 
     if (!name || !email) {
       return NextResponse.json(
@@ -17,19 +17,21 @@ export async function POST(request: NextRequest) {
     const token = generateToken()
     const timestamp = new Date().toISOString()
 
-    await appendRsvp({ name, guests: guests || '1', email, comment: comment || '', token, timestamp })
+    await appendRsvp({ attending: attending || 'yes', name, guests: guests || '1', email, comment: comment || '', token, timestamp })
 
     const baseUrl = request.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || ''
     const editUrl = `${baseUrl}/edit/${token}`
 
-    const hostEmail = getHostNotificationEmail(name, email, comment)
+    const rsvpDetails = { attending: attending || 'yes', name, guests: guests || '1', email, comment: comment || '' }
+
+    const hostEmail = getHostNotificationEmail(rsvpDetails)
     await sendEmail({
       to: process.env.HOST_EMAIL!,
       subject: hostEmail.subject,
       html: hostEmail.html,
     })
 
-    const guestEmail = getGuestConfirmationEmail(name, editUrl)
+    const guestEmail = getGuestConfirmationEmail(rsvpDetails, editUrl)
     await sendEmail({
       to: email,
       subject: guestEmail.subject,

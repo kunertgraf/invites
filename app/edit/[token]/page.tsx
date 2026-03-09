@@ -29,6 +29,7 @@ export default async function EditPage({ params }: EditPageProps) {
           </div>
           <RsvpForm
             initialData={{
+              attending: rsvp.attending,
               name: rsvp.name,
               guests: rsvp.guests,
               email: rsvp.email,

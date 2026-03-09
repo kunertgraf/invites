@@ -18,6 +18,7 @@ const SHEET_ID = process.env.GOOGLE_SHEET_ID!
 const RANGE = 'Sheet1'
 
 export interface RsvpRow {
+  attending: string
   name: string
   guests: string
   email: string
@@ -34,7 +35,7 @@ export async function appendRsvp(rsvp: Omit<RsvpRow, 'rowIndex'>): Promise<void>
     range: RANGE,
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      values: [[rsvp.name, rsvp.guests, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
+      values: [[rsvp.attending, rsvp.name, rsvp.guests, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
     },
   })
 }
@@ -49,14 +50,15 @@ export async function findRsvpByToken(token: string): Promise<RsvpRow | null> {
   const rows = response.data.values || []
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]
-    if (row[4] === token) {
+    if (row[5] === token) {
       return {
-        name: row[0],
-        guests: row[1] || '1',
-        email: row[2],
-        comment: row[3],
-        token: row[4],
-        timestamp: row[5],
+        attending: row[0] || 'yes',
+        name: row[1],
+        guests: row[2] || '1',
+        email: row[3],
+        comment: row[4],
+        token: row[5],
+        timestamp: row[6],
         rowIndex: i + 1,
       }
     }
@@ -71,10 +73,10 @@ export async function updateRsvp(
   const sheets = getSheets()
   await sheets.spreadsheets.values.update({
     spreadsheetId: SHEET_ID,
-    range: `${RANGE}!A${rowIndex}:F${rowIndex}`,
+    range: `${RANGE}!A${rowIndex}:G${rowIndex}`,
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      values: [[rsvp.name, rsvp.guests, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
+      values: [[rsvp.attending, rsvp.name, rsvp.guests, rsvp.email, rsvp.comment, rsvp.token, rsvp.timestamp]],
     },
   })
 }

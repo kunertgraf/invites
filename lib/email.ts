@@ -24,14 +24,38 @@ export async function sendEmail({ to, subject, html }: SendEmailParams) {
   })
 }
 
-export function getHostNotificationEmail(name: string, email: string, comment: string) {
+interface RsvpDetails {
+  attending: string
+  name: string
+  guests: string
+  email: string
+  comment: string
+}
+
+function rsvpSummary(rsvp: RsvpDetails) {
+  return `
+    <div style="background: #1a1a1a; border: 1px solid #525252; border-radius: 12px; padding: 20px; margin: 20px 0;">
+      <h3 style="color: #fbbf24; margin: 0 0 12px 0; font-size: 16px;">Your RSVP Details</h3>
+      <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Status:</strong> ${rsvp.attending === 'yes' ? '&#10003; Coming' : '&#10007; Can\'t Make It'}</p>
+      <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Name:</strong> ${rsvp.name}</p>
+      <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Guests:</strong> ${rsvp.guests}</p>
+      <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Email:</strong> ${rsvp.email}</p>
+      ${rsvp.comment ? `<p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Comment:</strong> ${rsvp.comment}</p>` : ''}
+    </div>
+  `
+}
+
+export function getHostNotificationEmail(rsvp: RsvpDetails) {
+  const statusText = rsvp.attending === 'yes' ? 'Coming' : "Can't Make It"
   return {
-    subject: `New RSVP: ${name}`,
+    subject: `New RSVP: ${rsvp.name} (${statusText})`,
     html: `
       <h2>New RSVP Received!</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Comment:</strong> ${comment || 'No comment'}</p>
+      <p><strong>Name:</strong> ${rsvp.name}</p>
+      <p><strong>Status:</strong> ${statusText}</p>
+      <p><strong>Guests:</strong> ${rsvp.guests}</p>
+      <p><strong>Email:</strong> ${rsvp.email}</p>
+      <p><strong>Comment:</strong> ${rsvp.comment || 'No comment'}</p>
     `,
   }
 }
@@ -45,26 +69,30 @@ const partyDetails = `
   </div>
 `
 
-export function getGuestConfirmationEmail(name: string, editUrl: string) {
+export function getGuestConfirmationEmail(rsvp: RsvpDetails, editUrl: string) {
+  const isComing = rsvp.attending === 'yes'
   return {
-    subject: "You're invited to Rachel's Birthday!",
+    subject: isComing ? "You're invited to Rachel's Birthday!" : "We'll miss you at Rachel's Birthday!",
     html: `
-      <h2>Thanks for RSVPing, ${name}!</h2>
-      <p>We've received your response and can't wait to see you at the party!</p>
+      <h2>${isComing ? `Thanks for RSVPing, ${rsvp.name}!` : `Sorry you can't make it, ${rsvp.name}!`}</h2>
+      <p>${isComing ? "We've received your response and can't wait to see you at the party!" : "We'll miss you! If your plans change, you can always update your RSVP."}</p>
       ${partyDetails}
+      ${rsvpSummary(rsvp)}
       <p>If you need to update your RSVP, you can do so here:</p>
       <p><a href="${editUrl}">${editUrl}</a></p>
     `,
   }
 }
 
-export function getGuestUpdateEmail(name: string, editUrl: string) {
+export function getGuestUpdateEmail(rsvp: RsvpDetails, editUrl: string) {
+  const isComing = rsvp.attending === 'yes'
   return {
     subject: 'Your RSVP has been updated',
     html: `
       <h2>RSVP Updated!</h2>
-      <p>Hi ${name}, your RSVP has been successfully updated.</p>
+      <p>${isComing ? `Hi ${rsvp.name}, your RSVP has been updated. See you at the party!` : `Hi ${rsvp.name}, your RSVP has been updated. We'll miss you!`}</p>
       ${partyDetails}
+      ${rsvpSummary(rsvp)}
       <p>If you need to make more changes, use this link:</p>
       <p><a href="${editUrl}">${editUrl}</a></p>
     `,

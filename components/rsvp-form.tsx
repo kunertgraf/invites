@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 interface RsvpFormProps {
   initialData?: {
+    attending: string
     name: string
     guests: string
     email: string
@@ -13,6 +14,7 @@ interface RsvpFormProps {
 }
 
 export default function RsvpForm({ initialData, token }: RsvpFormProps) {
+  const [attending, setAttending] = useState(initialData?.attending || 'yes')
   const [name, setName] = useState(initialData?.name || '')
   const [guests, setGuests] = useState(initialData?.guests || '1')
   const [email, setEmail] = useState(initialData?.email || '')
@@ -33,7 +35,7 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, guests, email, comment }),
+        body: JSON.stringify({ attending, name, guests, email, comment }),
       })
 
       if (!response.ok) {
@@ -75,6 +77,31 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
           className="w-full px-4 py-2 bg-neutral-800 border border-neutral-600 rounded-lg text-neutral-100 placeholder-neutral-500 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           placeholder="Your name"
         />
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={() => setAttending('yes')}
+          className={`flex-1 py-2 px-4 rounded-lg font-semibold text-sm transition-colors border ${
+            attending === 'yes'
+              ? 'bg-amber-600 border-amber-600 text-white'
+              : 'bg-neutral-800 border-neutral-600 text-neutral-400 hover:border-neutral-500'
+          }`}
+        >
+          {attending === 'yes' && <span className="text-green-400 mr-1">&#10003;</span>}Coming
+        </button>
+        <button
+          type="button"
+          onClick={() => setAttending('no')}
+          className={`flex-1 py-2 px-4 rounded-lg font-semibold text-sm transition-colors border ${
+            attending === 'no'
+              ? 'bg-neutral-600 border-neutral-600 text-white'
+              : 'bg-neutral-800 border-neutral-600 text-neutral-400 hover:border-neutral-500'
+          }`}
+        >
+          {attending === 'no' && <span className="text-red-400 mr-1">&#10007;</span>}Can't Make It
+        </button>
       </div>
 
       <div>
