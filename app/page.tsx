@@ -11,7 +11,7 @@ export default function Home() {
             <p className="text-2xl text-neutral-300 mb-1 font-light tracking-wide" style={{ fontFamily: "'Exo 2', sans-serif" }}>
               you're invited to
             </p>
-            <h1 className="text-5xl tracking-widest neon-title" style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900 }}>
+            <h1 className="text-3xl sm:text-5xl tracking-wider sm:tracking-widest neon-title" style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900 }}>
               RACHEL'S BIRTHDAY
             </h1>
             <div className="mt-6 space-y-2 text-neutral-300 text-sm">
