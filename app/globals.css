@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.neon-title {
+  color: #E55CE0;
+  text-shadow: 0 0 10px rgba(255, 45, 123, 0.5);
+}
+
+.neon-blue {
+  color: #00d4ff;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+.neon-border {
+  box-shadow: 0 0 10px rgba(255, 45, 123, 0.15);
+  border-color: rgba(255, 45, 123, 0.4);
+  border-width: 2px;
+}
+
+.neon-btn {
+  background: linear-gradient(135deg, #E55CE0, #F0A0ED);
+  box-shadow: 0 0 10px rgba(255, 45, 123, 0.25);
+  transition: all 0.3s ease;
+}
+
+.neon-btn:hover {
+  box-shadow: 0 0 15px rgba(255, 45, 123, 0.4);
+  transform: translateY(-1px);
+}
+
+.neon-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 45, 123, 0.2);
+  transition: all 0.3s ease;
+}
+
+.neon-input:focus {
+  border-color: #E55CE0;
+  box-shadow: 0 0 8px rgba(255, 45, 123, 0.2);
+  outline: none;
+}

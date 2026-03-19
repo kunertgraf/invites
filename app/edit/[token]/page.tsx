@@ -17,13 +17,13 @@ export default async function EditPage({ params }: EditPageProps) {
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-neutral-900/80 border border-neutral-700 rounded-2xl shadow-2xl p-8 backdrop-blur">
+        <div className="bg-neutral-950/90 shadow-2xl p-8" style={{ border: '4px solid #E55CE0' }}>
           <div className="text-center mb-8">
             <div className="text-6xl mb-4">✏️</div>
-            <h1 className="text-3xl font-bold text-amber-400 mb-2">
+            <h1 className="text-3xl font-bold mb-2 neon-title" style={{ fontFamily: "'Orbitron', sans-serif" }}>
               Edit Your RSVP
             </h1>
-            <p className="text-neutral-300">
+            <p className="text-neutral-400">
               Update your response below
             </p>
           </div>
@@ -31,7 +31,6 @@ export default async function EditPage({ params }: EditPageProps) {
             initialData={{
               attending: rsvp.attending,
               name: rsvp.name,
-              guests: rsvp.guests,
               email: rsvp.email,
               comment: rsvp.comment,
             }}

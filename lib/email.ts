@@ -35,10 +35,10 @@ interface RsvpDetails {
 function rsvpSummary(rsvp: RsvpDetails) {
   return `
     <div style="background: #1a1a1a; border: 1px solid #525252; border-radius: 12px; padding: 20px; margin: 20px 0;">
-      <h3 style="color: #fbbf24; margin: 0 0 12px 0; font-size: 16px;">Your RSVP Details</h3>
+      <h3 style="color: #E55CE0; margin: 0 0 12px 0; font-size: 16px;">Your RSVP Details</h3>
       <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Status:</strong> ${rsvp.attending === 'yes' ? '&#10003; Coming' : '&#10007; Can\'t Make It'}</p>
       <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Name:</strong> ${rsvp.name}</p>
-      <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Guests:</strong> ${rsvp.guests}</p>
+
       <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Email:</strong> ${rsvp.email}</p>
       ${rsvp.comment ? `<p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #a3a3a3;">Comment:</strong> ${rsvp.comment}</p>` : ''}
     </div>
@@ -53,7 +53,7 @@ export function getHostNotificationEmail(rsvp: RsvpDetails) {
       <h2>New RSVP Received!</h2>
       <p><strong>Name:</strong> ${rsvp.name}</p>
       <p><strong>Status:</strong> ${statusText}</p>
-      <p><strong>Guests:</strong> ${rsvp.guests}</p>
+
       <p><strong>Email:</strong> ${rsvp.email}</p>
       <p><strong>Comment:</strong> ${rsvp.comment || 'No comment'}</p>
     `,
@@ -62,10 +62,10 @@ export function getHostNotificationEmail(rsvp: RsvpDetails) {
 
 const partyDetails = `
   <div style="background: #262626; border: 1px solid #525252; border-radius: 12px; padding: 20px; margin: 20px 0;">
-    <h3 style="color: #fbbf24; margin: 0 0 12px 0; font-size: 18px;">Rachel's Birthday</h3>
-    <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #fbbf24;">Saturday, April 11</strong></p>
-    <p style="color: #d4d4d4; margin: 4px 0;">7pm — Dinner at <a href="https://maps.google.com/?q=Seoul+Mates+954+E+Union+St+Seattle" style="color: #fbbf24;">Seoul Mates</a> (954 E Union St)</p>
-    <p style="color: #d4d4d4; margin: 4px 0;">9pm — Karaoke at <a href="https://maps.google.com/?q=Rock+Box+1603+Nagle+Pl+Seattle" style="color: #fbbf24;">Rock Box</a> (1603 Nagle Pl)</p>
+    <h3 style="color: #E55CE0; margin: 0 0 12px 0; font-size: 18px;">Rachel's Birthday</h3>
+    <p style="color: #d4d4d4; margin: 4px 0;"><strong style="color: #00d4ff;">Saturday, April 11</strong></p>
+    <p style="color: #d4d4d4; margin: 4px 0;">Drinks and karaoke at <a href="https://maps.google.com/?q=Boombox+Bar+Seattle" style="color: #E55CE0;">Boombox</a></p>
+    <p style="color: #d4d4d4; margin: 4px 0;">6pm til late</p>
   </div>
 `
 

@@ -19,9 +19,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
       </head>
-      <body className="min-h-screen bg-neutral-800" style={{ fontFamily: "'Lucida Sans Unicode', 'Lucida Grande', sans-serif" }}>
+      <body className="min-h-screen bg-black" style={{ fontFamily: "'Exo 2', sans-serif" }}>
         {children}
       </body>
     </html>

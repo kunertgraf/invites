@@ -6,7 +6,6 @@ interface RsvpFormProps {
   initialData?: {
     attending: string
     name: string
-    guests: string
     email: string
     comment: string
   }
@@ -16,7 +15,7 @@ interface RsvpFormProps {
 export default function RsvpForm({ initialData, token }: RsvpFormProps) {
   const [attending, setAttending] = useState(initialData?.attending || 'yes')
   const [name, setName] = useState(initialData?.name || '')
-  const [guests, setGuests] = useState(initialData?.guests || '1')
+
   const [email, setEmail] = useState(initialData?.email || '')
   const [comment, setComment] = useState(initialData?.comment || '')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -35,7 +34,7 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ attending, name, guests, email, comment }),
+        body: JSON.stringify({ attending, name, email, comment }),
       })
 
       if (!response.ok) {
@@ -54,8 +53,8 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
     return (
       <div className="text-center p-8">
         <div className="text-6xl mb-4">🎉</div>
-        <h2 className="text-2xl font-bold text-amber-400 mb-2">
-          {isEdit ? 'Updated!' : 'You\'re all set!'}
+        <h2 className="text-2xl font-bold mb-2 neon-title" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+          {isEdit ? 'Updated!' : "You're all set!"}
         </h2>
         <p className="text-neutral-300">{message}</p>
       </div>
@@ -64,8 +63,13 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {!isEdit && (
+        <p className="text-white text-sm text-center mb-2 px-4">
+          I'm appreciating another year with Rachel as an amazing person and wonderful partner, and I'm looking forward to the next one. Let's celebrate that together with drinks and karaoke! Swing by Boombox anytime after 6pm and stay as late as you want!
+        </p>
+      )}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-neutral-300 mb-1">
+        <label htmlFor="name" className="block text-sm font-medium text-neutral-400 mb-1 uppercase tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.65rem' }}>
           Name
         </label>
         <input
@@ -74,7 +78,7 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          className="w-full px-4 py-2 bg-neutral-800 border border-neutral-600 rounded-lg text-neutral-100 placeholder-neutral-500 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+          className="w-full px-4 py-2 rounded-none text-neutral-100 placeholder-neutral-600 neon-input"
           placeholder="Your name"
         />
       </div>
@@ -83,21 +87,22 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
         <button
           type="button"
           onClick={() => setAttending('yes')}
-          className={`flex-1 py-2 px-4 rounded-lg font-semibold text-sm transition-colors border ${
+          className={`flex-1 py-2 px-4 rounded-none font-semibold text-sm transition-all border ${
             attending === 'yes'
-              ? 'bg-amber-600 border-amber-600 text-white'
-              : 'bg-neutral-800 border-neutral-600 text-neutral-400 hover:border-neutral-500'
+              ? 'border-pink-500 text-white'
+              : 'bg-neutral-900 border-neutral-700 text-neutral-500 hover:border-neutral-600'
           }`}
+          style={attending === 'yes' ? { background: 'linear-gradient(135deg, #E55CE0, #F0A0ED)', boxShadow: '0 0 15px rgba(255, 45, 123, 0.4)' } : {}}
         >
-          {attending === 'yes' && <span className="text-green-400 mr-1">&#10003;</span>}Coming
+          {attending === 'yes' && <span className="mr-1">&#10003;</span>}Coming
         </button>
         <button
           type="button"
           onClick={() => setAttending('no')}
-          className={`flex-1 py-2 px-4 rounded-lg font-semibold text-sm transition-colors border ${
+          className={`flex-1 py-2 px-4 rounded-none font-semibold text-sm transition-all border ${
             attending === 'no'
-              ? 'bg-neutral-600 border-neutral-600 text-white'
-              : 'bg-neutral-800 border-neutral-600 text-neutral-400 hover:border-neutral-500'
+              ? 'bg-neutral-700 border-neutral-600 text-white'
+              : 'bg-neutral-900 border-neutral-700 text-neutral-500 hover:border-neutral-600'
           }`}
         >
           {attending === 'no' && <span className="text-red-400 mr-1">&#10007;</span>}Can't Make It
@@ -105,23 +110,7 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
       </div>
 
       <div>
-        <label htmlFor="guests" className="block text-sm font-medium text-neutral-300 mb-1">
-          Number of Guests (we need an exact count!)
-        </label>
-        <select
-          id="guests"
-          value={guests}
-          onChange={(e) => setGuests(e.target.value)}
-          className="w-full px-4 py-2 bg-neutral-800 border border-neutral-600 rounded-lg text-neutral-100 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-neutral-300 mb-1">
+        <label htmlFor="email" className="block text-sm font-medium text-neutral-400 mb-1 uppercase tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.65rem' }}>
           Email
         </label>
         <input
@@ -130,13 +119,13 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full px-4 py-2 bg-neutral-800 border border-neutral-600 rounded-lg text-neutral-100 placeholder-neutral-500 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+          className="w-full px-4 py-2 rounded-none text-neutral-100 placeholder-neutral-600 neon-input"
           placeholder="your@email.com"
         />
       </div>
 
       <div>
-        <label htmlFor="comment" className="block text-sm font-medium text-neutral-300 mb-1">
+        <label htmlFor="comment" className="block text-sm font-medium text-neutral-400 mb-1 uppercase tracking-wider" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.65rem' }}>
           Comment (optional)
         </label>
         <textarea
@@ -144,7 +133,7 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           rows={2}
-          className="w-full px-4 py-2 bg-neutral-800 border border-neutral-600 rounded-lg text-neutral-100 placeholder-neutral-500 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+          className="w-full px-4 py-2 rounded-none text-neutral-100 placeholder-neutral-600 neon-input"
           placeholder="Anything else?"
         />
       </div>
@@ -156,7 +145,8 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="w-full py-3 px-4 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-500 focus:ring-4 focus:ring-amber-300/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="w-full py-3 px-4 text-white font-semibold rounded-none disabled:opacity-50 disabled:cursor-not-allowed neon-btn uppercase tracking-widest"
+        style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.85rem' }}
       >
         {status === 'loading' ? 'Submitting...' : isEdit ? 'Update RSVP' : 'Submit RSVP'}
       </button>
