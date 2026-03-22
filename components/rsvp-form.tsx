@@ -65,7 +65,7 @@ export default function RsvpForm({ initialData, token }: RsvpFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6">
       {!isEdit && (
         <p className="text-white text-sm text-center mb-2 px-4">
-          I'm appreciating another year with Rachel as an amazing person and wonderful partner, and I'm looking forward to the next one. Let's celebrate that together with drinks and karaoke! Swing by Boombox anytime after 6pm and stay as late as you want!
+          Rachel is a thoughtful and caring friend. Her deep empathy and curiousity for others inspire me every day. Let's celebrate her with drinks and karaoke! Come by Boombox any time after 6 and stay for as long as you'd like (we'll be there until late but you may want to leave early once you hear our singing voices).
         </p>
       )}
       <div>
